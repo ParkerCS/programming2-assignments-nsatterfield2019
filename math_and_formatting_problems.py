@@ -1,31 +1,36 @@
 # MATH AND FORMATTING (34PTS TOTAL)
 
-
 #FORMATTING
 
 #PROBLEM 1 (2pts)
 #Use {}.format() to print 0.000321192 in scientific notation to two decimals
 
 
+
 #PROBLEM 2 (2pts)
 #You get 8 out of 9 on a quiz.
-#Print 8/9 using {}.format() so that it appears as 89%
+#Print 8/9 using {}.format() so that it appears as 88.9%
+
 
 
 #PROBLEM 3 (3pts)
 #Take the following program:
+
 score = 41237
 highscore = 1023407
 print("Score:      " + str(score) )
 print("High score: " + str(highscore) )
+
 #Which right now outputs:
 #Score:      41237
 #High score: 1023407
+
 #Use print formatting so that the output instead looks like:
 #Score:          41,237
 #High score:  1,023,407
 #Make sure the print formatting works for any integer from zero to nine million. Do not use any plus sign (+) in your code. 
 #You should only have two double quotes in each print statement.
+
 
 
 #PROBLEM 4 (5 pts) 
@@ -52,35 +57,52 @@ print("High score: " + str(highscore) )
 #1/19 = 0.0526
 #1/20 = 0.05
 
+
+for i in range(1, 20):
+  print(i) # in case you forgot how to use a loop, here's a start
+
+
+
+
 #PROBLEM 5 (From Math Class to Code - 5pts)
 # Print the answer to the math question:
 # 3(60x^2 + 3x/9) + 2x - 4/3(x) - sqrt(x)
 # where x = 12.83
 
+
 x = 12.83
 your_answer = 0  # Substitute your equation for the zero
 print(your_answer)
 
+
 #PROBLEM 2 (Wholesale Books - 5pts)
 #The cover price of a book is $27.95, but bookstores get a 50 percent discount.
 #Shipping costs $4 for the first copy and 75 cents for each additional copy.
-# Calculate the total wholesale costs for 68 copies formatted to the nearest penny.
+# Calculate the total wholesale costs for 68 copies formatted (using {}.format()) to the nearest penny.
 
-#PROBLEM 3 (Dining Room Chairs - 5pts)
+
+
+
+#PROBLEM 3 (What is this, the ACT? - 5pts)
 # You purchase eight chairs for your dining room.
 # You pay for the chairs plus sales tax at 9.5%
 # Make a program that prints the amount to the nearest penny using the variables below
-# Use the round(float, digits) function to get to nearest penny
+# Use the round(float, digits) function to get to nearest penny.
+
 chair_price = 189.99
 tax_percent = 0.095
 units = 8
 
-#PROBLEM 4 (Variable Swap - 2pts)
+
+
+
+##PROBLEM 4 (Variable Swap Logic Problem- 2pts)
 # Can you think of a way to swap the values of two variables that does not
 # need a third variable as a temporary storage?
 # In the code below, try to implement the swapping of the values of 'a' and 'b' without using a third variable.
 # To help you out, the first step to do this is already given.
 # You just need to add two more lines of code.
+# Python has a super simple way to do it as well, but that's not the intention here.  
 
 a = 17
 b = 23
@@ -89,7 +111,10 @@ a += b # this is the first line to help you out
 # add two more lines of code here to cause swapping of a and b
 print( "a =", a, "and b =", b)
 
-#PROBLEM 5 (Coin counter - 5pts)
+
+
+
+#####PROBLEM 5 (Coin counter - 5pts)
 # Write code that classifies a given amount of money (which you store in a variable named count),
 # as greater monetary units. Your code lists the monetary equivalent in dollars, quarters,
 # dimes, nickels, and pennies.
