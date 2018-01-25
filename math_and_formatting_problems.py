@@ -75,15 +75,15 @@ your_answer = 0  # Substitute your equation for the zero
 print(your_answer)
 
 
-#PROBLEM 2 (Wholesale Books - 5pts)
-#The cover price of a book is $27.95, but bookstores get a 50 percent discount.
-#Shipping costs $4 for the first copy and 75 cents for each additional copy.
+# PROBLEM 2 (Wholesale Books - 5pts)
+# The cover price of a book is $27.95, but bookstores get a 50 percent discount.
+# Shipping costs $4 for the first copy and 75 cents for each additional copy.
 # Calculate the total wholesale costs for 68 copies formatted (using {}.format()) to the nearest penny.
 
 
 
 
-#PROBLEM 3 (What is this, the ACT? - 5pts)
+# PROBLEM 3 (What is this, the ACT? - 5pts)
 # You purchase eight chairs for your dining room.
 # You pay for the chairs plus sales tax at 9.5%
 # Make a program that prints the amount to the nearest penny using the variables below
@@ -96,7 +96,7 @@ units = 8
 
 
 
-##PROBLEM 4 (Variable Swap Logic Problem- 2pts)
+## PROBLEM 4 (Variable Swap Logic Problem- 2pts)
 # Can you think of a way to swap the values of two variables that does not
 # need a third variable as a temporary storage?
 # In the code below, try to implement the swapping of the values of 'a' and 'b' without using a third variable.
@@ -114,7 +114,7 @@ print( "a =", a, "and b =", b)
 
 
 
-#####PROBLEM 5 (Coin counter - 5pts)
+##### PROBLEM 5 (Coin counter - 5pts)
 # Write code that classifies a given amount of money (which you store in a variable named count),
 # as greater monetary units. Your code lists the monetary equivalent in dollars, quarters,
 # dimes, nickels, and pennies.
