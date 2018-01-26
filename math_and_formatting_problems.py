@@ -1,61 +1,61 @@
 # MATH AND FORMATTING (34PTS TOTAL)
 
-#FORMATTING
+# FORMATTING
 
-#PROBLEM 1 (2pts)
-#Use {}.format() to print 0.000321192 in scientific notation to two decimals
-
-
-
-#PROBLEM 2 (2pts)
-#You get 8 out of 9 on a quiz.
-#Print 8/9 using {}.format() so that it appears as 88.9%
+# PROBLEM 1 (2pts)
+# Use {}.format() to print 0.000321192 in scientific notation to two decimals
 
 
 
-#PROBLEM 3 (3pts)
-#Take the following program:
+# PROBLEM 2 (2pts)
+# You get 8 out of 9 on a quiz.
+# Print 8/9 using {}.format() so that it appears as 88.9%
+
+
+
+# PROBLEM 3 (3pts)
+# Take the following program:
 
 score = 41237
 highscore = 1023407
 print("Score:      " + str(score) )
 print("High score: " + str(highscore) )
 
-#Which right now outputs:
-#Score:      41237
-#High score: 1023407
+# Which right now outputs:
+# Score:      41237
+# High score: 1023407
 
-#Use print formatting so that the output instead looks like:
-#Score:          41,237
-#High score:  1,023,407
-#Make sure the print formatting works for any integer from zero to nine million. Do not use any plus sign (+) in your code. 
-#You should only have two double quotes in each print statement.
+# Use print formatting so that the output instead looks like:
+# Score:          41,237
+# High score:  1,023,407
+# Make sure the print formatting works for any integer from zero to nine million. Do not use any plus sign (+) in your code.
+# You should only have two double quotes in each print statement.
 
 
 
-#PROBLEM 4 (5 pts) 
-#Create a program that loops from 1 to 20 and lists the decimal equivalent of their inverse. 
-#Use print formatting to exactly match the following output:
-#1/1  = 1.0
-#1/2  = 0.5
-#1/3  = 0.333
-#1/4  = 0.25
-#1/5  = 0.2
-#1/6  = 0.167
-#1/7  = 0.143
-#1/8  = 0.125
-#1/9  = 0.111
-#1/10 = 0.1
-#1/11 = 0.0909
-#1/12 = 0.0833
-#1/13 = 0.0769
-#1/14 = 0.0714
-#1/15 = 0.0667
-#1/16 = 0.0625
-#1/17 = 0.0588
-#1/18 = 0.0556
-#1/19 = 0.0526
-#1/20 = 0.05
+# PROBLEM 4 (5 pts)
+# Create a program that loops from 1 to 20 and lists the decimal equivalent of their inverse.
+# Use print formatting to exactly match the following output:
+# 1/1  = 1.0
+# 1/2  = 0.5
+# 1/3  = 0.333
+# 1/4  = 0.25
+# 1/5  = 0.2
+# 1/6  = 0.167
+# 1/7  = 0.143
+# 1/8  = 0.125
+# 1/9  = 0.111
+# 1/10 = 0.1
+# 1/11 = 0.0909
+# 1/12 = 0.0833
+# 1/13 = 0.0769
+# 1/14 = 0.0714
+# 1/15 = 0.0667
+# 1/16 = 0.0625
+# 1/17 = 0.0588
+# 1/18 = 0.0556
+# 1/19 = 0.0526
+# 1/20 = 0.05
 
 
 for i in range(1, 20):
@@ -64,7 +64,7 @@ for i in range(1, 20):
 
 
 
-#PROBLEM 5 (From Math Class to Code - 5pts)
+# PROBLEM 5 (From Math Class to Code - 5pts)
 # Print the answer to the math question:
 # 3(60x^2 + 3x/9) + 2x - 4/3(x) - sqrt(x)
 # where x = 12.83
@@ -75,11 +75,12 @@ your_answer = 0  # Substitute your equation for the zero
 print(your_answer)
 
 
+
+
 # PROBLEM 2 (Wholesale Books - 5pts)
 # The cover price of a book is $27.95, but bookstores get a 50 percent discount.
 # Shipping costs $4 for the first copy and 75 cents for each additional copy.
 # Calculate the total wholesale costs for 68 copies formatted (using {}.format()) to the nearest penny.
-
 
 
 
@@ -95,8 +96,7 @@ units = 8
 
 
 
-
-## PROBLEM 4 (Variable Swap Logic Problem- 2pts)
+# PROBLEM 4 (Variable Swap Logic Problem- 2pts)
 # Can you think of a way to swap the values of two variables that does not
 # need a third variable as a temporary storage?
 # In the code below, try to implement the swapping of the values of 'a' and 'b' without using a third variable.
@@ -114,7 +114,7 @@ print( "a =", a, "and b =", b)
 
 
 
-##### PROBLEM 5 (Coin counter - 5pts)
+##PROBLEM 5 (Coin counter - 5pts)
 # Write code that classifies a given amount of money (which you store in a variable named count),
 # as greater monetary units. Your code lists the monetary equivalent in dollars, quarters,
 # dimes, nickels, and pennies.
