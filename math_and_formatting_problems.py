@@ -4,22 +4,21 @@
 
 # PROBLEM 1 (2pts)
 # Use {}.format() to print 0.000321192 in scientific notation to two decimals
-
+print("{:.2e}".format(0.000321192))
 
 
 # PROBLEM 2 (2pts)
 # You get 8 out of 9 on a quiz.
 # Print 8/9 using {}.format() so that it appears as 88.9%
-
-
+print("{:>.1%}".format(8 / 9))
 
 # PROBLEM 3 (3pts)
 # Take the following program:
 
 score = 41237
 highscore = 1023407
-print("Score:      " + str(score) )
-print("High score: " + str(highscore) )
+print("Score:      " + str(score))
+print("High score: " + str(highscore))
 
 # Which right now outputs:
 # Score:      41237
@@ -29,9 +28,9 @@ print("High score: " + str(highscore) )
 # Score:          41,237
 # High score:  1,023,407
 # Make sure the print formatting works for any integer from zero to nine million. Do not use any plus sign (+) in your code.
-# You should only have two double quotes in each print statement.
-
-
+# You should only have two double quotes in each print statement
+print("Score:      " "{:,}".format(score))
+print("High score: " "{:,}".format(highscore))
 
 # PROBLEM 4 (5 pts)
 # Create a program that loops from 1 to 20 and lists the decimal equivalent of their inverse.
@@ -57,22 +56,19 @@ print("High score: " + str(highscore) )
 # 1/19 = 0.0526
 # 1/20 = 0.05
 
-
-for i in range(1, 20):
-  print(i) # in case you forgot how to use a loop, here's a start
-
+for i in range(1, 21):
+    print("1/" + str(i) + " = " + "{:.4f}".format((1/i) * (1/1)))
 
 
 
 # PROBLEM 5 (From Math Class to Code - 5pts)
 # Print the answer to the math question:
-# 3(60x^2 + 3x/9) + 2x - 4/3(x) - sqrt(x)
+#3(60x^2 + 3x/9) + 2x - 4/3(x) - sqrt(x)
 # where x = 12.83
 
-
 x = 12.83
-your_answer = 0  # Substitute your equation for the zero
-print(your_answer)
+#your_answer = 3(60x**2))  # Substitute your equation for the zero
+#print(your_answer)
 
 
 
