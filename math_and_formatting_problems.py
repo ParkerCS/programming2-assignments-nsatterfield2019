@@ -1,5 +1,5 @@
 # MATH AND FORMATTING (34PTS TOTAL)
-
+# By Nathan Satterfield
 # FORMATTING
 
 # PROBLEM 1 (2pts)
