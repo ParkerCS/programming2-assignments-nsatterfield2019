@@ -61,3 +61,11 @@ print("There were", wrong , "wrong sequences")
 # What are the digits?
 # Note: to make ABCD and DCBA conventional numbers, neither A nor D can be zero.
 # Use a quadruple-nested loop to solve. 
+
+# The following is not correct!
+for a in range(1, 10):
+    for b in range(10):
+        for c in range(10):
+            for d in range(1, 10):
+                
+
