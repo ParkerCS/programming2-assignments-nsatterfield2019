@@ -42,7 +42,8 @@ def sum_product(n1, n2):
 
 # PROBLEM 5 (Login - 4pts)
 # Make a file called import_me.py in this same project
-# Inside this new module/file, make a login function which works according to the flow diagram PasswordFlowchart.png in this folder
+# Inside this new module/file, make a login function which works according to the flow diagram
+# PasswordFlowchart.png in this folder
 # Substitute your name for Rohan's, and use whatever generic password you want.
 
 
