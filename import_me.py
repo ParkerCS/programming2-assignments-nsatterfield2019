@@ -2,7 +2,7 @@
 # For problem #5 on the homework
 # Password Problem
 
-password_correct = "3507robotheosis"
+password_correct = "firsttechchallenge"
 
 def login(user_name, password):
     '''

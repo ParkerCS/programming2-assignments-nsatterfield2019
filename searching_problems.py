@@ -11,10 +11,38 @@ def split_line(line):
 #1.  (7pts) Write code which finds and prints the longest
 # word in the provided dictionary.  If there are more
 # than one longest word, print them all.  (read the file line by line to accomplish this task)
+file = open('search_files/dictionary.txt' , "r")
+all_words = []
+
+for line in file:
+    words = split_line(line)
+    for words in words:
+        all_words.append(words)
+#print(all_words)
+
+
+
+
 
 #2.  (7pts)  Write code which finds
 #  The total word count AND average word length of "AliceInWonderLand.txt"
+file = open('search_files/AliceInWonderLand.txt' , "r")
+alice_words = []
 
+for line in file:
+    word = split_line(line)
+    for word in word:
+        alice_words.append(word)
+#print(alice_words)
+
+word_length =0
+
+for word in alice_words:
+    word_length += len(word)
+    print(word_length)
+
+average_words = word_length / len(alice_words)
+print("The average word length in Alice In Wonder Land is" , average_words)
 
 
 # CHOOSE ONE OF THE FOLLOWING TWO PROBLEMS
@@ -22,6 +50,7 @@ def split_line(line):
 #3 (13pts)  How many times does "Cheshire" occur in"AliceInWonderLand.txt"?
 # How many times does "Cat" occur?
 # How many times does "Cheshire" immediately followed by "Cat" occur?
+
 
 
 #### OR #####
