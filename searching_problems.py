@@ -11,15 +11,18 @@ def split_line(line):
 #1.  (7pts) Write code which finds and prints the longest
 # word in the provided dictionary.  If there are more
 # than one longest word, print them all.  (read the file line by line to accomplish this task)
-file = open('search_files/dictionary.txt' , "r")
-all_words = []
+dict = open('search_files/dictionary.txt', 'r')
+dict_words = []
 
-for line in file:
+for line in dict:
     words = split_line(line)
-    for words in words:
-        all_words.append(words)
-#print(all_words)
+    for word in words:
+        dict_words.append(word)
 
+longest_words = [len(x) for x in dict_words]
+print("The longest word is:", dict_words[longest_words.index(max(longest_words))], "and its length is:" , len(dict_words[longest_words.index(max(longest_words))]))
+
+dict.close()
 
 
 
@@ -62,8 +65,8 @@ print("The average word length in Alice In Wonder Land is" , average_words)
 
 
 # CHALLNENGE PROBLEM  (for fun, not for credit).  
-#  What words appear in the text of "Alice in Wonderland" that DO NOT occur in "Alice Through the Looking Glass".  Make a list.  You can substitute this for any of the above problems.
-
+#  What words appear in the text of "Alice in Wonderland" that DO NOT occur in "Alice Through the Looking Glass".
+# Make a list.  You can substitute this for any of the above problems.
 
 
 
