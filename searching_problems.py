@@ -42,7 +42,8 @@ word_length =0
 
 for word in alice_words:
     word_length += len(word)
-    print(word_length)
+
+print("There are:", word_length, "number of words in Alice In Wonder Land")
 
 average_words = word_length / len(alice_words)
 print("The average word length in Alice In Wonder Land is" , average_words)
@@ -53,8 +54,36 @@ print("The average word length in Alice In Wonder Land is" , average_words)
 #3 (13pts)  How many times does "Cheshire" occur in"AliceInWonderLand.txt"?
 # How many times does "Cat" occur?
 # How many times does "Cheshire" immediately followed by "Cat" occur?
+file = open('search_files/AliceInWonderLand.txt' , "r")
 
 
+cat = 0
+
+for line in file:
+    word = split_line(line)
+    for word in word:
+        if word.lower() == "cat":
+            cat += 1
+
+print("Cat is said:", cat, "number of times")
+
+
+file = open('search_files/AliceInWonderLand.txt' , "r")
+alice_words = []
+
+for line in file:
+    word = split_line(line)
+    for word in word:
+        alice_words.append(word)
+
+Cheshire = 0
+
+for i in range(len(alice_words)):
+    if alice_words[i] == "Cheshire" and alice_words[i + 1].upper() == "cat":
+        #if alice_words[i + 1].upper() == "cat":
+        Cheshire += 1
+
+print("Cheshire Cat is said:", Cheshire, "number of times")
 
 #### OR #####
 
