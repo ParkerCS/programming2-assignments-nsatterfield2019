@@ -79,8 +79,7 @@ for line in file:
 Cheshire = 0
 
 for i in range(len(alice_words)):
-    if alice_words[i] == "Cheshire" and alice_words[i + 1].upper() == "cat":
-        #if alice_words[i + 1].upper() == "cat":
+    if alice_words[i] == "Cheshire" and alice_words[i + 1].upper() == "CAT":
         Cheshire += 1
 
 print("Cheshire Cat is said:", Cheshire, "number of times")
