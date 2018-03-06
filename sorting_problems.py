@@ -35,12 +35,11 @@ sort_me4 = [50, 61, 96, 72, 67, 12, 14, 1, 35, 51, 38, 32, 34, 29, 95, 75, 74, 8
 
 
 # Problem 4 - All time NBA Scorers (10 pts)
-#You are provided the top 50 scorers in NBA history in a file nba_scoring_leaders.
-#  It is a random list.  Sort them by their total points scored.
-# First open the file and pull the names and scores into a list
-# (use the split_line function from class to do this).
-# Once you have a 2d list built, you can try to sort it.
-# This is a little different from the sorts done in class.
+#You are provided the top 50 scorers in NBA history in file/nba_scoring_leaders.txt
+# It is a randomly ordered list.  Sort them by their total points scored.
+# You may wish to put it in a 2d list first.  Look to Search assignment (split_line)
+# This is a little different from the sorts done in class as you will likely be sorting a 2d list
 # You will need to sort nba_leader_list[i] by using the score located at nba_leader_list[i][2].
+#  Feel free to use either sorting method to accomplish this.  You can make a function, but it is not required.
 # This is designed to test your understanding of the sort by applying it to slightly more messy list.
-# Solving malformed problems leads to deeper understanding.  Good luck.
+# Solving MALFORMED PROBLEMS leads to deeper understanding.  Good luck.
