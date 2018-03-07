@@ -1,3 +1,7 @@
+# Coded by Nathan Satterfield
+# 11th grade at Francis W. Parker School
+
+
 import import_me
 
 

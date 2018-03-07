@@ -1,3 +1,7 @@
+# Coded by Nathan Satterfield
+# 11th grade at Francis W. Parker School
+
+
 '''
 Complete the following 3 searching problems using techniques
 from class and from Ch15 of the textbook website
