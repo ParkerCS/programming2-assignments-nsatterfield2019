@@ -1,10 +1,10 @@
 '''
 Turtle Recursion (33pts)
 
-1)  Using the turtle library, create the H fractal pattern as shown in the data folder. (15pts)
+1)  Using the turtle library, create the H fractal pattern according to the file shown in the data folder. (15pts)
 
-
-2)  Using the turtle library, create any of the other recursive patterns in the data folder. (15pts)
+2)  Using the turtle library, create any of the other recursive patterns in the data folder. 
+Challenge yourself to match your pattern as closely as you can to the image.  (15pts)
 
 3)  Create your own work of art with a repeating pattern of your making.  
 It must be a repeated pattern using recursion. Snowflakes, trees, and spirals are a common choice.  
