@@ -13,4 +13,6 @@ Take this one as seriously as the points indicate.  Play around.  (3pt)
 Give all your fractals a depth of at least 4.  Ensure the recursive drawing is contained on the screen (at whatever size you set it).
 All three recursive drawings can be on the same program.  Just use screen.clear() between problems.
  Have fun!
+ 
+ Resource to help you out >>> https://docs.python.org/3.3/library/turtle
 '''
