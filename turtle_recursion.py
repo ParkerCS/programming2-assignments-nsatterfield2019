@@ -5,6 +5,8 @@ Turtle Recursion (33pts)
 
 2)  Using the turtle library, create any of the other recursive patterns in the data folder. 
 Challenge yourself to match your pattern as closely as you can to the image.  (15pts)
+Note:  The Koch snowflake shows step by step building of the fractal.  
+       The rectangle fractal example shows 4 possible drawings of the same fractal (choose any one)
 
 3)  Create your own work of art with a repeating pattern of your making.  
 It must be a repeated pattern using recursion. Snowflakes, trees, and spirals are a common choice.  
