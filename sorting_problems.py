@@ -98,6 +98,7 @@ print("New List #4 - Insertion Sort:" , sort[0])
 print("New List #4 - IS - Big Loop:", sort[1])
 print("New List #4 - IS - Small Loop:", sort[2])
 
+
 #  ---- OR ----
 
 
