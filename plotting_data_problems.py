@@ -8,7 +8,8 @@
 # label the x with the month.  Rotate the text so we can read it.  (see example problem).  Use the tight_fit command to show all text.
 # label axes, title the graph as necessary.
 
-# MATPLOTLIB PROBLEM # 2 (20pts)
+# MATPLOTLIB PROBLEM # 2 
+# Chicago Public Transit Usership Graph (20pts)
 # go to https://data.cityofchicago.org/Transportation/CTA-Ridership-Annual-Boarding-Totals/w8km-9pzd
 # download the CTA ridership data as a csv.
 # Read the data into a list using the csv library.
