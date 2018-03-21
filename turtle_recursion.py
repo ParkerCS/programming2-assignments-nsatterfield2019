@@ -1,3 +1,6 @@
+# Coded by Nathan Satterfield
+# 11th grade at Francis W. Parker School
+
 '''
 Turtle Recursion (33pts)
 
@@ -18,3 +21,76 @@ All three recursive drawings can be on the same program.  Just use screen.clear(
  
  Resource to help you out >>> https://docs.python.org/3.3/library/turtle
 '''
+
+import turtle
+
+my_turtle = turtle.Turtle()
+my_turtle.showturtle()
+my_turtle.shape("turtle")
+my_turtle.speed(0)
+my_screen = turtle.Screen()
+my_screen.bgcolor('White')
+
+def H_fractal_pattern(x, y, size, depth):
+    if depth > 0:
+        my_turtle.up()
+        my_turtle.goto(x, y)
+        my_turtle.down()
+        my_turtle.goto(x + size, y)
+        my_turtle.goto(x + size, y + size)
+        my_turtle.goto(x + size, y - size)
+        my_turtle.up()
+        my_turtle.goto(x, y)
+        my_turtle.down()
+        my_turtle.goto(x - size, y)
+        my_turtle.goto(x - size, y + size)
+        my_turtle.goto(x - size, y - size)
+        H_fractal_pattern(x + size, y + size, size / 2, depth - 1)
+        H_fractal_pattern(x - size, y + size, size / 2, depth - 1)
+        H_fractal_pattern(x - size, y - size, size / 2,  depth - 1)
+        H_fractal_pattern(x + size, y - size, size / 2, depth - 1)
+
+
+H_fractal_pattern(0, 0, 150, 4)
+my_screen.clear()
+
+
+def escher(size, depth):
+    if depth > 0:
+        my_turtle.pencolor("black")
+        my_turtle.down()
+        my_turtle.forward(size)
+        my_turtle.left(90)
+        my_turtle.forward(size)
+        my_turtle.left(90)
+        my_turtle.forward(size)
+        my_turtle.left(90)
+        my_turtle.forward(size)
+        my_turtle.left(90)
+        my_turtle.forward(size / 2)
+        my_turtle.left(45)
+        escher((((size / 2) ** 2) + ((size / 2) ** 2)) ** .5, depth - 1)
+
+my_turtle.up()
+my_turtle.goto(-250, -250)
+escher(500, 15)
+my_screen.clear()
+
+
+def nathanfractal(width, depth):
+    if depth > 0:
+        my_turtle.up()
+        my_turtle.goto(width / 2, width / 2)
+        my_turtle.down()
+        my_turtle.goto(width / 2, -width / 2)
+        my_turtle.goto(-width / 2, -width / 2)
+        my_turtle.goto(-width / 2 , width / 2)
+        my_turtle.goto(width / 2, width / 2)
+        nathanfractal(width * 1.5, depth -1)
+
+
+my_turtle.up()
+nathanfractal(5, 12)
+
+
+my_screen.exitonclick() # end of program
