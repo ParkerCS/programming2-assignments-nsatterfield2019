@@ -1,6 +1,6 @@
 
 # MATPLOTLIB PROBLEM # 1
-# Chicago Public Library Computer Usage (15pts)
+# Chicago Public Library Visitors (15pts)
 # open and read in the "Libraries_-_2018_Visitors_by_Location.csv" file into a list (use file located in the file folder, read in using csv library).
 # calculate (and make a list of) the total visitors to Chicago libraries each month.  
 # Do not plot every library individually.  Instead, find the total for all libraries each month and plot that.
