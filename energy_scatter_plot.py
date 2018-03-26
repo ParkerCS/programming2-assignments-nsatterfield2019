@@ -1,5 +1,5 @@
 '''
-Energy Efficiency of Schools (35pts)
+Energy Efficiency of Chicago Schools (35pts)
 
 https://data.cityofchicago.org/Environment-Sustainable-Development/Chicago-Energy-Benchmarking-2016-Data-Reported-in-/fpwt-snya\
 
