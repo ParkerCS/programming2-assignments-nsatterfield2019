@@ -74,6 +74,7 @@ def escher(size, depth):
 my_turtle.up()
 my_turtle.goto(-250, -250)
 escher(500, 15)
+'''
 my_screen.clear()
 
 
@@ -92,5 +93,5 @@ def nathanfractal(width, depth):
 my_turtle.up()
 nathanfractal(5, 12)
 
-
+'''
 my_screen.exitonclick() # end of program
