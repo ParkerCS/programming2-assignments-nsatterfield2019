@@ -1,3 +1,6 @@
+# Coded by Nathan Satterfield
+# 11th grade at Francis W. Parker School
+
 '''
 Energy Efficiency of Chicago Schools (35pts)
 
@@ -27,3 +30,25 @@ Challenge (for fun):
 - Add colleges and universities (use a different marker type)
 
 '''
+
+import csv
+import matplotlib.pyplot as plt
+
+with open("files/Chicago_Energy_Benchmarking_-_2016_Data_Reported_in_2017.csv") as f:
+    reader = csv.reader(f)
+    data = list(reader)
+
+schools = []
+plotting_code = ["K-12 School"]
+
+for i in range(len(data)):
+    if data[i][6] in plotting_code:
+        schools.append(data[i][2])
+        schools.append(data[i][7])
+        schools.append(data[i][20])
+
+    else:
+        continue
+
+print(schools)
+
