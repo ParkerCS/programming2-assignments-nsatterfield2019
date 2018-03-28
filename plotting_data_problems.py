@@ -115,3 +115,47 @@ plt.show()
 # Make a legend to identify each line.
 # Label axes and give your graph a title.  Change it in any other way you see necessary to give it a clean look.
 
+with open("files/CTA_-_Ridership_-_Annual_Boarding_Totals.csv") as f:
+    reader = csv.reader(f)
+    cta = list(reader)
+
+bus = []
+paratransit = []
+rail = []
+total = []
+years = []
+
+bus = [x[1] for x in cta]
+bus.pop(0)
+print(bus)
+
+paratransit = [x[2] for x in cta]
+paratransit.pop(0)
+print(paratransit)
+
+rail = [x[3] for x in cta]
+rail.pop(0)
+print(rail)
+
+total = [x[4] for x in cta]
+total.pop(0)
+print(total)
+
+years = [x[0] for x in cta]
+years.pop(0)
+print(years)
+
+plt.figure(2, tight_layout=True, figsize=(10, 6), facecolor="purple")
+
+plt.plot(years, paratransit, color='orange', label="Paratransit")
+plt.plot(years, bus, color='blue', label="Bus")
+plt.plot(years, rail, color='green', label="Rail")
+plt.plot(years, total, color='red', label="Total")
+
+plt.ylabel("Number of Uses per")
+plt.xlabel("Years")
+plt.title("Chicago Public Transportation Ridership Usage")
+plt.xticks(years, rotation=45)
+plt.legend(bbox_to_anchor=(1, .1), loc="upper left")
+
+plt.show()
