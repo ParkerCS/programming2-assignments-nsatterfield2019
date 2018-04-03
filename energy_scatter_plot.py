@@ -33,22 +33,75 @@ Challenge (for fun):
 
 import csv
 import matplotlib.pyplot as plt
+import numpy as np
 
 with open("files/Chicago_Energy_Benchmarking_-_2016_Data_Reported_in_2017.csv") as f:
     reader = csv.reader(f)
     data = list(reader)
 
-schools = []
-plotting_code = ["K-12 School"]
+school_names = []
+square_footage = []
+greenhouse_gas = []
+
+plotting_code = "K-12 School"
 
 for i in range(len(data)):
-    if data[i][6] in plotting_code:
-        schools.append(data[i][2])
-        schools.append(data[i][7])
-        schools.append(data[i][20])
+    if data[i][6] == plotting_code:
+        try:
+            name = data[i][2]
+            sqr_ft = float(data[i][7])
+            gg = float(data[i][20])
+            school_names.append(name)
+            square_footage.append(sqr_ft)
+            greenhouse_gas.append(gg)
+        except:
+            print(data[i][0], "has no data")
 
     else:
         continue
 
-print(schools)
+
+print(school_names)
+print(square_footage)
+print(greenhouse_gas)
+
+plt.figure(1, figsize=(12,7))
+plt.scatter(square_footage, greenhouse_gas, s=5, c='red')
+plt.title("Energy Efficiency (or lack) of Chicago Schools")
+plt.xlabel("Square Footage of Building")
+plt.ylabel("Greenhouse Gas Emissions")
+
+m, b = np.polyfit(square_footage, greenhouse_gas, 1) # 1 for linear, returns slipe and y intercept
+
+x = [0, 700000]
+y = [m * point + b for point in x]
+
+plt.plot(x, y, color='green')
+
+ghg_int = []
+ghg_int = square_footage / greenhouse_gas
+
+for i in range(len(square_footage)):
+    ghg_int = square_footage[i] / greenhouse_gas[i]
+
+#x for x in len(list) --> Above
+
+zipped = zip(school_names, square_footage, greenhouse_gas)
+zipped = list(zipped)
+print(zipped)
+
+zipped.sort(key= lambda x:x[2])
+print(zipped)
+
+
+for i in range(len(zipped)):
+    if i < 5:
+        plt.annotate(zipped[i][0], xy=(zipped[i][1], zipped[i][2]), fontsize=5)
+    if i > len(zipped) - 6:
+        plt.annotate(zipped[i][0], xy=(zipped[i][1], zipped[i][2]), fontsize=5)
+
+plt.show()
+
+
+
 
