@@ -42,6 +42,7 @@ with open("files/Chicago_Energy_Benchmarking_-_2016_Data_Reported_in_2017.csv") 
 school_names = []
 square_footage = []
 greenhouse_gas = []
+ghg_int = []
 
 plotting_code = "K-12 School"
 
@@ -51,9 +52,11 @@ for i in range(len(data)):
             name = data[i][2]
             sqr_ft = float(data[i][7])
             gg = float(data[i][20])
+            ghg = float(data[i][21])
             school_names.append(name)
             square_footage.append(sqr_ft)
             greenhouse_gas.append(gg)
+            ghg_int.append(ghg)
         except:
             print(data[i][0], "has no data")
 
@@ -65,8 +68,8 @@ print(school_names)
 print(square_footage)
 print(greenhouse_gas)
 
-plt.figure(1, figsize=(12,7))
-plt.scatter(square_footage, greenhouse_gas, s=5, c='red')
+plt.figure(1, figsize=(12,7), facecolor ='purple')
+plt.scatter(square_footage, greenhouse_gas, s=5, c='blue', marker=".")
 plt.title("Energy Efficiency (or lack) of Chicago Schools")
 plt.xlabel("Square Footage of Building")
 plt.ylabel("Greenhouse Gas Emissions")
@@ -78,19 +81,11 @@ y = [m * point + b for point in x]
 
 plt.plot(x, y, color='green')
 
-ghg_int = []
-ghg_int = square_footage / greenhouse_gas
-
-for i in range(len(square_footage)):
-    ghg_int = square_footage[i] / greenhouse_gas[i]
-
-#x for x in len(list) --> Above
-
-zipped = zip(school_names, square_footage, greenhouse_gas)
+zipped = zip(school_names, square_footage, greenhouse_gas, ghg_int)
 zipped = list(zipped)
 print(zipped)
 
-zipped.sort(key= lambda x:x[2])
+zipped.sort(key= lambda x:x[3])
 print(zipped)
 
 
@@ -99,6 +94,11 @@ for i in range(len(zipped)):
         plt.annotate(zipped[i][0], xy=(zipped[i][1], zipped[i][2]), fontsize=5)
     if i > len(zipped) - 6:
         plt.annotate(zipped[i][0], xy=(zipped[i][1], zipped[i][2]), fontsize=5)
+
+parker = school_names.index("Francis W Parker School")
+
+plt.annotate(school_names[parker], xy=(square_footage[parker], greenhouse_gas[parker]), fontsize=5)
+
 
 plt.show()
 
