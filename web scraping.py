@@ -96,3 +96,4 @@ print(zipped)
 for item in zipped:
     print("{:<11}: Description: {:<17} High/Low: {:<7} Precipitation: {:<4} Wind: {:<10} Humidity: {:<3}".format(item[0], item[1], item[2], item[3], item[4], item[5]))
 
+
