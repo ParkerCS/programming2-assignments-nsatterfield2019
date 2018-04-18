@@ -1,8 +1,10 @@
 # gmap library by vgm64 - Github
 # adapted for student use by Aaron Lee 2018
 # changes by A. Lee include
-#  - removed non-functioning marker lookup (red only flags)
-#  - added api_insert function to make google map friendly
+#  - removed non-functioning marker lookup (only default red flags are used here)
+#  - added api_insert function to write api key into the html page to make functional with google maps
+#  - updated maxIntensity kwarg to match google map API
+# -  updated methods for color arguments to match google map API
 
 import json
 import math
