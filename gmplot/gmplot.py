@@ -1,10 +1,17 @@
-import math
-import requests
-import json
-import os
-from bs4 import BeautifulSoup
+# gmap library by vgm64 - Github
+# adapted for student use by Aaron Lee 2018
+# changes by A. Lee include
+#  - removed non-functioning marker lookup (red only flags)
+#  - added api_insert function to make google map friendly
 
-from color_dicts import mpl_color_map, html_color_codes, ncaa_logos
+import json
+import math
+import os
+import requests
+import warnings
+
+from .color_dicts import mpl_color_map, html_color_codes
+
 
 
 def safe_iter(var):
@@ -16,23 +23,21 @@ def safe_iter(var):
 
 class GoogleMapPlotter(object):
 
-    def __init__(self, center_lat, center_lng, zoom):
+    def __init__(self, center_lat, center_lng, zoom, apikey=''):
         self.center = (float(center_lat), float(center_lng))
         self.zoom = int(zoom)
+        self.apikey = str(apikey)
         self.grids = None
         self.paths = []
         self.shapes = []
-        self.markers = []
+        self.points = []
         self.heatmap_points = []
+        self.ground_overlays = []
         self.radpoints = []
         self.gridsetting = None
         self.coloricon = os.path.join(os.path.dirname(__file__), 'markers/%s.png')
-        self.coloricons = []
         self.color_dict = mpl_color_map
         self.html_color_codes = html_color_codes
-        self.ncaa_logos = ncaa_logos
-        self.infowindows = []
-        self.marker_clusterer = None
 
     @classmethod
     def from_geocode(cls, location_string, zoom=13):
@@ -50,21 +55,12 @@ class GoogleMapPlotter(object):
     def grid(self, slat, elat, latin, slng, elng, lngin):
         self.gridsetting = [slat, elat, latin, slng, elng, lngin]
 
-    def marker(self, lat, lng, color, title="no implementation", draggable=False):
+    def marker(self, lat, lng, color='#FF0000', c=None, title="no implementation"):
+        if c:
+            color = c
         color = self.color_dict.get(color, color)
         color = self.html_color_codes.get(color, color)
-        marker_name = "marker%s" % str(len(self.markers)+1)
-        index = len(self.markers) # ADDING THIS TO INDEX THE IMAGES
-        self.markers.append((marker_name, lat, lng, color, title, draggable, index))
-        return marker_name
-
-    def infowindow(self, marker_name, content, always_open=False):
-        infowindow_name = "infowindow%s" % str(len(self.infowindows)+1)
-        self.infowindows.append((infowindow_name, marker_name, content, always_open))
-        return infowindow_name
-
-    def markerClusterer(self, markers_names, maxZoom):
-        self.marker_clusterer = (markers_names, maxZoom)
+        self.points.append((lat, lng, color[1:], title))
 
     def scatter(self, lats, lngs, color=None, size=None, marker=True, c=None, s=None, **kwargs):
         color = color or c
@@ -133,19 +129,24 @@ class GoogleMapPlotter(object):
         path = zip(lats, lngs)
         self.paths.append((path, settings))
 
-    def heatmap(self, lats, lngs, threshold=10, radius=10, gradient=None, opacity=0.6, dissipating=True):
+    def heatmap(self, lats, lngs, threshold=10, radius=10, gradient=None, opacity=0.6, maxIntensity=1, dissipating=True):
         """
         :param lats: list of latitudes
         :param lngs: list of longitudes
+        :param maxIntensity:(int) max frequency to use when plotting. Default (None) uses max value on map domain.
         :param threshold:
         :param radius: The hardest param. Example (string):
         :return:
         """
         settings = {}
+        # Try to give anyone using threshold a heads up.
+        if threshold != 10:
+            warnings.warn("The 'threshold' kwarg is deprecated, replaced in favor of maxIntensity.")
         settings['threshold'] = threshold
         settings['radius'] = radius
         settings['gradient'] = gradient
         settings['opacity'] = opacity
+        settings['maxIntensity'] = maxIntensity
         settings['dissipating'] = dissipating
         settings = self._process_heatmap_kwargs(settings)
 
@@ -158,22 +159,44 @@ class GoogleMapPlotter(object):
         settings_string = ''
         settings_string += "heatmap.set('threshold', %d);\n" % settings_dict['threshold']
         settings_string += "heatmap.set('radius', %d);\n" % settings_dict['radius']
+        settings_string += "heatmap.set('maxIntensity', %d);\n" % settings_dict['maxIntensity']
         settings_string += "heatmap.set('opacity', %f);\n" % settings_dict['opacity']
 
         dissipation_string = 'true' if settings_dict['dissipating'] else 'false'
         settings_string += "heatmap.set('dissipating', %s);\n" % (dissipation_string)
 
-        gradient = settings_dict['gradient']
-        if gradient:
-            gradient_string = "var gradient = [\n"
-            for r, g, b, a in gradient:
-                gradient_string += "\t" + "'rgba(%d, %d, %d, %d)',\n" % (r, g, b, a)
-            gradient_string += '];' + '\n'
-            gradient_string += "heatmap.set('gradient', gradient);\n"
-
-            settings_string += gradient_string
+        gradient_string = 'gradient' if settings_dict['gradient'] else 'none'
+        settings_string+= "heatmap.set('gradient', %s);\n" % (gradient_string)
 
         return settings_string
+
+    def ground_overlay(self, url, bounds_dict):
+        '''
+        :param url: Url of image to overlay
+        :param bounds_dict: dict of the form  {'north': , 'south': , 'west': , 'east': }
+        setting the image container
+        :return: None
+        Example use:
+        import gmplot
+        gmap = gmplot.GoogleMapPlotter(37.766956, -122.438481, 13)
+        bounds_dict = {'north':37.832285, 'south': 37.637336, 'west': -122.520364, 'east': -122.346922}
+        gmap.ground_overlay('http://explore.museumca.org/creeks/images/TopoSFCreeks.jpg', bounds_dict)
+        gmap.draw("my_map.html")
+        Google Maps API documentation
+        https://developers.google.com/maps/documentation/javascript/groundoverlays#introduction
+        '''
+
+        bounds_string = self._process_ground_overlay_image_bounds(bounds_dict)
+        self.ground_overlays.append((url, bounds_string))
+
+    def _process_ground_overlay_image_bounds(self, bounds_dict):
+        bounds_string = 'var imageBounds = {'
+        bounds_string += "north:  %.4f,\n" % bounds_dict['north']
+        bounds_string += "south:  %.4f,\n" % bounds_dict['south']
+        bounds_string += "east:  %.4f,\n" % bounds_dict['east']
+        bounds_string += "west:  %.4f};\n" % bounds_dict['west']
+
+        return bounds_string
 
     def polygon(self, lats, lngs, color=None, c=None, **kwargs):
         color = color or c
@@ -182,9 +205,10 @@ class GoogleMapPlotter(object):
         shape = zip(lats, lngs)
         self.shapes.append((shape, settings))
 
-    # create the html file which include one google map and all points and
-    # paths
     def draw(self, htmlfile):
+        """Create the html file which include one google map and all points and paths. If 
+        no string is provided, return the raw html.
+        """
         f = open(htmlfile, 'w')
         f.write('<html>\n')
         f.write('<head>\n')
@@ -192,21 +216,22 @@ class GoogleMapPlotter(object):
             '<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />\n')
         f.write(
             '<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>\n')
-        f.write('<title>Google Maps - pygmaps </title>\n')
-        f.write('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true_or_false"></script>\n')
+        f.write('<title>Google Maps - gmplot </title>\n')
+        if self.apikey:
+            f.write('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true_or_false&key=%s"></script>\n' % self.apikey )
+        else:
+            f.write('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true_or_false"></script>\n' )
         f.write('<script type="text/javascript">\n')
         f.write('\tfunction initialize() {\n')
         self.write_map(f)
         self.write_grids(f)
-        self.write_markers(f)
-        self.write_infowindows(f)
-        self.write_markerclusterer(f)
+        self.write_points(f)
         self.write_paths(f)
         self.write_shapes(f)
         self.write_heatmap(f)
+        self.write_ground_overlay(f)
         f.write('\t}\n')
         f.write('</script>\n')
-        self.write_markerclusterer_dependencies(f)
         f.write('</head>\n')
         f.write(
             '<body style="margin:0px; padding:0px;" onload="initialize()">\n')
@@ -247,13 +272,9 @@ class GoogleMapPlotter(object):
             settings = self._process_kwargs({"color": "#000000"})
             self.write_polyline(f, line, settings)
 
-    def write_markers(self, f):
-        for marker in self.markers:
-            self.write_marker(f, marker[0], marker[1], marker[2], marker[3], marker[4], marker[5], marker[6])
-
-    def write_infowindows(self, f):
-        for infowindow in self.infowindows:
-            self.write_infowindow(f, infowindow[0], infowindow[1], infowindow[2], infowindow[3])
+    def write_points(self, f):
+        for point in self.points:
+            self.write_point(f, point[0], point[1], point[2], point[3])
 
     def get_cycle(self, lat, lng, rad):
         # unit of radius: meter
@@ -289,49 +310,23 @@ class GoogleMapPlotter(object):
         f.write('\t\tvar myOptions = {\n')
         f.write('\t\t\tzoom: %d,\n' % (self.zoom))
         f.write('\t\t\tcenter: centerlatlng,\n')
-        #f.write('\t\t\tmapTypeId: google.maps.MapTypeId.SATELLITE\n')
-        #f.write('\t\t\tmapTypeId: google.maps.MapTypeId.ROADMAP\n')
-        f.write('\t\t\tmapTypeId: google.maps.MapTypeId.HYBRID\n')
-
+        f.write('\t\t\tmapTypeId: google.maps.MapTypeId.ROADMAP\n')
         f.write('\t\t};\n')
         f.write(
             '\t\tvar map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);\n')
         f.write('\n')
 
-    def write_marker(self, f, marker_name, lat, lon, color, title, draggable, index):
+    def write_point(self, f, lat, lon, color, title):
         f.write('\t\tvar latlng = new google.maps.LatLng(%f, %f);\n' %
                 (lat, lon))
-        f.write('\t\tvar img = new google.maps.MarkerImage(\'%s\');\n' %
-                (self.coloricons[index])) # RIGHT HERE!!!!
-        f.write('\t\tvar %s = new google.maps.Marker({\n' % marker_name)
-        f.write('\t\t\ttitle: "%s",\n' % title)
-        f.write('\t\t\ticon: img,\n')
-        f.write('\t\t\tposition: latlng,\n')
-        f.write('\t\t\tdraggable: %s\n' % str(draggable).lower())
+        #f.write('\t\tvar img = new google.maps.MarkerImage(\'%s\');\n' %(self.coloricon % color))
+        f.write('\t\tvar marker = new google.maps.Marker({\n')
+        f.write('\t\ttitle: "%s",\n' % title)
+        #f.write('\t\ticon: img,\n')
+        f.write('\t\tposition: latlng\n')
         f.write('\t\t});\n')
-        f.write('\t\t%s.setMap(map);\n' % marker_name)
+        f.write('\t\tmarker.setMap(map);\n')
         f.write('\n')
-
-    def write_infowindow(self, f, infowindow_name, marker_name, content, always_open):
-        f.write('\t\tvar %s = new google.maps.InfoWindow({\n' % infowindow_name)
-        f.write('\t\t\tcontent: "%s"\n' % content)
-        f.write('\t\t});\n')
-        f.write('\t\tgoogle.maps.event.addListener(%s, "click", function(e) {\n' % marker_name)
-        f.write('\t\t\t%s.open(map, this);\n' % infowindow_name)
-        f.write('\t\t});\n')
-        if (always_open):
-            f.write('\t\t%s.open(map, %s);\n' % (infowindow_name, marker_name))
-        f.write('\n')
-        
-    def write_markerclusterer(self, f):
-        if self.marker_clusterer:
-            markers_names = '['+', '.join(self.marker_clusterer[0])+']'
-            f.write('\t\tvar markerCluster = new MarkerClusterer(map, %s,\n' % markers_names);
-            f.write('\t\t\t{imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m", maxZoom: %s});\n\n' % self.marker_clusterer[1]);
-
-    def write_markerclusterer_dependencies(self, f):
-        if self.marker_clusterer:
-            f.write('<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>\n')
 
     def write_polyline(self, f, path, settings):
         clickable = False
@@ -340,23 +335,23 @@ class GoogleMapPlotter(object):
         strokeOpacity = settings.get('edge_alpha')
         strokeWeight = settings.get('edge_width')
 
-        f.write('\t\tvar PolylineCoordinates = [\n')
+        f.write('var PolylineCoordinates = [\n')
         for coordinate in path:
-            f.write('\t\t\tnew google.maps.LatLng(%f, %f),\n' %
+            f.write('new google.maps.LatLng(%f, %f),\n' %
                     (coordinate[0], coordinate[1]))
-        f.write('\t\t];\n')
+        f.write('];\n')
         f.write('\n')
 
-        f.write('\t\tvar Path = new google.maps.Polyline({\n')
-        f.write('\t\t\tclickable: %s,\n' % (str(clickable).lower()))
-        f.write('\t\t\tgeodesic: %s,\n' % (str(geodesic).lower()))
-        f.write('\t\t\tpath: PolylineCoordinates,\n')
-        f.write('\t\t\tstrokeColor: "%s",\n' % (strokeColor))
-        f.write('\t\t\tstrokeOpacity: %f,\n' % (strokeOpacity))
-        f.write('\t\t\tstrokeWeight: %d\n' % (strokeWeight))
-        f.write('\t\t});\n')
+        f.write('var Path = new google.maps.Polyline({\n')
+        f.write('clickable: %s,\n' % (str(clickable).lower()))
+        f.write('geodesic: %s,\n' % (str(geodesic).lower()))
+        f.write('path: PolylineCoordinates,\n')
+        f.write('strokeColor: "%s",\n' % (strokeColor))
+        f.write('strokeOpacity: %f,\n' % (strokeOpacity))
+        f.write('strokeWeight: %d\n' % (strokeWeight))
+        f.write('});\n')
         f.write('\n')
-        f.write('\t\tPath.setMap(map);\n')
+        f.write('Path.setMap(map);\n')
         f.write('\n\n')
 
     def write_polygon(self, f, path, settings):
@@ -405,61 +400,50 @@ class GoogleMapPlotter(object):
             f.write('heatmap.setMap(map);' + '\n')
             f.write(settings_string)
 
-def insertapikey(page_name, apikey):
-    """put the google api key in a html file"""
-    def putkey(page, apikey, apistring=None):
-        """put the apikey in the htmltxt and return soup"""
-        if not apistring:
-            apistring = "https://maps.googleapis.com/maps/api/js?key=%s&libraries=visualization&sensor=true_or_false&callback=initialize"
-        soup = BeautifulSoup(page, 'html.parser')
-        body = soup.body
-        src = apistring % (apikey) # insert apikey for %s
-        insert_tag = soup.new_tag("script", src=src, async="defer")
-        body.insert(-1, insert_tag) # put the new script in with new src
-        return soup
-    page = open(page_name, 'r').read()
-    soup = putkey(page, apikey)
-    new_page_text = soup.prettify() # format it
-    open(page_name, 'w').write(new_page_text) # rewrite the page
+    def write_ground_overlay(self, f):
+
+        for url, bounds_string in self.ground_overlays:
+            f.write(bounds_string)
+            f.write('var groundOverlay;' + '\n')
+            f.write('groundOverlay = new google.maps.GroundOverlay(' + '\n')
+            f.write('\n')
+            f.write("'" + url + "'," + '\n')
+            f.write('imageBounds);' + '\n')
+            f.write('groundOverlay.setMap(map);' + '\n')
 
 if __name__ == "__main__":
-    mymap = GoogleMapPlotter(39.8097343, -98.5556, 5)
-    #mymap = GoogleMapPlotter.from_geocode("Stanford University")
 
-    #mymap.grid(37.42, 37.43, 0.001, -122.15, -122.14, 0.001)
-    #mymap.marker(37.427, -122.145, "yellow")
-    #mymap.marker(37.428, -122.146, "cornflowerblue")
-    #mymap.marker(37.429, -122.144, "k")
-
-    mymap.coloricons.append("http://i.turner.ncaa.com/dr/ncaa/ncaa7/release/sites/default/files/images/logos/schools/a/arizona-st.40.png")
-    mymap.coloricons.append("http://i.turner.ncaa.com/dr/ncaa/ncaa7/release/sites/default/files/images/logos/schools/m/michigan.40.png")
-    marker = mymap.marker(33.45343, -112.073231, "red")
-    marker2 = mymap.marker(42.276061, -83.743121, "red")
+    mymap = GoogleMapPlotter(37.428, -122.145, 16, apikey="AIzaSyD65be4pywe7-y4GjMmzZMidOpdmu2lkXo")
 
 
-    mymap.infowindow(marker, "Arizona State University</br><a href=http://www.asu.edu/>www.asu.edu</a>", False)
-    mymap.infowindow(marker2, "<h3>University of Michigan</h3>Ann Arbor, MI</br>Enrollment: 44,642</br> <a href=http://www.umich.edu>www.umich.edu</a></br><h3>Parker Class of 2007-2017:</br>42 students attended</h3>", False)
+    mymap.marker(37.427, -122.145)
 
-    #mymap.map_type = 'google.maps.MapTypeId.HYBRID'
-    #mymap.circle(37.429, -122.145, 100, "#FF0000", ew=2)
-    #path = [(37.429, 37.428, 37.427, 37.427, 37.427),
-             #(-122.145, -122.145, -122.145, -122.146, -122.146)]
-    #path2 = [[i+.01 for i in path[0]], [i+.02 for i in path[1]]]
-    #path3 = [(37.433302 , 37.431257 , 37.427644 , 37.430303), (-122.14488, -122.133121, -122.137799, -122.148743)]
-    #path4 = [(37.423074, 37.422700, 37.422410, 37.422188, 37.422274, 37.422495, 37.422962, 37.423552, 37.424387, 37.425920, 37.425937),
-         #(-122.150288, -122.149794, -122.148936, -122.148142, -122.146747, -122.14561, -122.144773, -122.143936, -122.142992, -122.147863, -122.145953)]
-    #mymap.plot(path[0], path[1], "plum", edge_width=10)
-    ##mymap.plot(path2[0], path2[1], "red")
-    #mymap.polygon(path3[0], path3[1], edge_color="cyan", edge_width=5, face_color="blue", face_alpha=0.1)
+    mymap.marker(37.428, -122.146)
+    mymap.marker(37.429, -122.144)
+
+
+    mymap.circle(37.429, -122.145, 100, "#FF0000", ew=2)
+
+    path = [(37.429, 37.428, 37.427, 37.427, 37.427),
+             (-122.145, -122.145, -122.145, -122.146, -122.146)]
+    path2 = [[i+.01 for i in path[0]], [i+.02 for i in path[1]]]
+    path3 = [(37.433302 , 37.431257 , 37.427644 , 37.430303), (-122.14488, -122.133121, -122.137799, -122.148743)]
+    path4 = [(37.423074, 37.422700, 37.422410, 37.422188, 37.422274, 37.422495, 37.422962, 37.423552, 37.424387, 37.425920, 37.425937),
+         (-122.150288, -122.149794, -122.148936, -122.148142, -122.146747, -122.14561, -122.144773, -122.143936, -122.142992, -122.147863, -122.145953)]
+    mymap.plot(path[0], path[1], "plum", edge_width=10)
+    mymap.plot(path2[0], path2[1], "red")
+    mymap.polygon(path3[0], path3[1], edge_color="cyan", edge_width=5, face_color="blue", face_alpha=0.1)
+
     #mymap.heatmap(path4[0], path4[1], threshold=10, radius=40)
-    #mymap.heatmap(path3[0], path3[1], threshold=10, radius=40, dissipating=False, gradient=[(30,30,30,0), (30,30,30,1), (50, 50, 50, 1)])
+    mymap.heatmap(path4[0], path4[1], maxIntensity=2, radius=100, dissipating=True)
     #mymap.scatter(path4[0], path4[1], c='r', marker=True)
     #mymap.scatter(path4[0], path4[1], s=90, marker=False, alpha=0.1)
-    # Get more points with:
-    # http://www.findlatitudeandlongitude.com/click-lat-lng-list/
-    #scatter_path = ([37.424435, 37.424417, 37.424417, 37.424554, 37.424775, 37.425099, 37.425235, 37.425082, 37.424656, 37.423957, 37.422952, 37.421759, 37.420447, 37.419135, 37.417822, 37.417209],
-                    #[-122.142048, -122.141275, -122.140503, -122.139688, -122.138872, -122.138078, -122.137241, -122.136405, -122.135568, -122.134731, -122.133894, -122.133057, -122.13222, -122.131383, -122.130557, -122.129999])
-    #mymap.scatter(scatter_path[0], scatter_path[1], c='r', marker=True)
-    mymap.draw('mymap.html')
-    insertapikey('mymap.html',"AIzaSyD65be4pywe7-y4GjMmzZMidOpdmu2lkXo")
+
+
+
+    scatter_path = ([37.424435, 37.424417, 37.424417, 37.424554, 37.424775, 37.425099, 37.425235, 37.425082, 37.424656, 37.423957, 37.422952, 37.421759, 37.420447, 37.419135, 37.417822, 37.417209],
+                    [-122.142048, -122.141275, -122.140503, -122.139688, -122.138872, -122.138078, -122.137241, -122.136405, -122.135568, -122.134731, -122.133894, -122.133057, -122.13222, -122.131383, -122.130557, -122.129999])
+    mymap.scatter(scatter_path[0], scatter_path[1], c='r', marker=True)
+
+    mymap.draw('./mymap.html')
 
