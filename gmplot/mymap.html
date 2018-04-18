@@ -1,0 +1,63 @@
+<html>
+ <head>
+  <meta content="initial-scale=1.0, user-scalable=no" name="viewport"/>
+  <meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+  <title>
+   Google Maps - pygmaps
+  </title>
+  <script src="https://maps.googleapis.com/maps/api/js?libraries=visualization&amp;sensor=true_or_false" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   function initialize() {
+		var centerlatlng = new google.maps.LatLng(39.809734, -98.555600);
+		var myOptions = {
+			zoom: 5,
+			center: centerlatlng,
+			mapTypeId: google.maps.MapTypeId.HYBRID
+		};
+		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+		var latlng = new google.maps.LatLng(33.453430, -112.073231);
+		var img = new google.maps.MarkerImage('http://i.turner.ncaa.com/dr/ncaa/ncaa7/release/sites/default/files/images/logos/schools/a/arizona-st.40.png');
+		var marker1 = new google.maps.Marker({
+			title: "no implementation",
+			icon: img,
+			position: latlng,
+			draggable: false
+		});
+		marker1.setMap(map);
+
+		var latlng = new google.maps.LatLng(42.276061, -83.743121);
+		var img = new google.maps.MarkerImage('http://i.turner.ncaa.com/dr/ncaa/ncaa7/release/sites/default/files/images/logos/schools/m/michigan.40.png');
+		var marker2 = new google.maps.Marker({
+			title: "no implementation",
+			icon: img,
+			position: latlng,
+			draggable: false
+		});
+		marker2.setMap(map);
+
+		var infowindow1 = new google.maps.InfoWindow({
+			content: "Arizona State University</br><a href=http://www.asu.edu/>www.asu.edu</a>"
+		});
+		google.maps.event.addListener(marker1, "click", function(e) {
+			infowindow1.open(map, this);
+		});
+
+		var infowindow2 = new google.maps.InfoWindow({
+			content: "<h3>University of Michigan</h3>Ann Arbor, MI</br>Enrollment: 44,642</br> <a href=http://www.umich.edu>www.umich.edu</a></br><h3>Parker Class of 2007-2017:</br>42 students attended</h3>"
+		});
+		google.maps.event.addListener(marker2, "click", function(e) {
+			infowindow2.open(map, this);
+		});
+
+	}
+  </script>
+ </head>
+ <body onload="initialize()" style="margin:0px; padding:0px;">
+  <div id="map_canvas" style="width: 100%; height: 100%;">
+  </div>
+  <script async="defer" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD65be4pywe7-y4GjMmzZMidOpdmu2lkXo&amp;libraries=visualization&amp;sensor=true_or_false&amp;callback=initialize">
+  </script>
+ </body>
+</html>
