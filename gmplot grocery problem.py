@@ -15,3 +15,39 @@
 # Instead of a heatmap, make each store a circle with varying size based on square footage of the store.  
 # Filter out all liquor stores, drug stores, and convenience stores.
 # Place markers or other indicators where you still see inadequate food access.
+from gmplot import *
+import csv
+
+apikey = "AIzaSyD65be4pywe7-y4GjMmzZMidOpdmu2lkXo"
+
+
+mymap = GoogleMapPlotter(41.878100, -87.629800, 11, apikey=apikey)
+
+with open("files/Grocery_Stores_-_2013.csv") as f:
+    reader = csv.reader(f)
+    data = list(reader)
+    data_length = list(reader)
+
+data.pop(0)
+
+index = 0
+while index < len(data):
+    if "LIQUOR" in data[index][0] or "WALGREEN" in data[index][0] or "Liquor" in data[index][0]:
+        del data[index]
+    index += 1
+
+print(data)
+
+lats = [float(x[-3]) for x in data]
+longs = [float(x[-2]) for x in data]
+
+#mymap.scatter(lats, longs, color="green", marker=True, size=1, opacity=1)
+mymap.heatmap(lats, longs, maxIntensity=5, radius=25, dissipating=True)
+
+
+
+
+
+
+
+mymap.draw("grocerymap.html")
