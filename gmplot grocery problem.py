@@ -1,3 +1,6 @@
+# Coded by Nathan Satterfield
+# 11th grade at Francis W. Parker School
+
 # In 2013, an interesting dataset was released for Chicago which identified a number of food deserts.
 # In many areas of the city, there were no suitable grocery stores with adequate produce, meats, refrigerated, and frozen food sections
 # Many areas were only served by corner stores and convenience stores.
