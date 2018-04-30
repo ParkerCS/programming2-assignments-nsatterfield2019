@@ -8,6 +8,6 @@
 #     Decimal button to add float capability (2pts)
 #     All buttons, columns, and rows will be of same relative size. (3pts)
 #     Use a stylesheet to change the color, font and size to approximately match the built in OS calulator app. (5pts)
-#     Add one or moreadditional functional button to your calculator (square, sqrt, pi, memory, trig, or whatever you choose) (3pts)
+#     Add one or more additional functional button to your calculator (square, sqrt, pi, memory, trig, or whatever you choose) (3pts)
 
 #  Model your calculator after the built in calc on your operating system.  (minus the +/- and % buttons)
