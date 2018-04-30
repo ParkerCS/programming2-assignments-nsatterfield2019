@@ -6,7 +6,7 @@
 #     *, /, -, and + buttons (5pts)
 #     = button to evaluate the current answer label. (5pts)
 #     Decimal button to add float capability (2pts)
-#     Will have the proper size.  All buttons will be of same relative size. (3pts)
+#     All buttons, columns, and rows will be of same relative size. (3pts)
 #     Use a stylesheet to change the color, font and size to approximately match the built in OS calulator app. (5pts)
 #     Add one or moreadditional functional button to your calculator (square, sqrt, pi, memory, trig, or whatever you choose) (3pts)
 
