@@ -38,13 +38,13 @@ class Window(QWidget):
         self.grid.addWidget(self.title, 1, 1, 2, 1)
         self.title.setObjectName("title")
 
-        self.label_radius = QLabel("Center to center distance between objects:")
+        self.label_radius = QLabel("Center to center distance between objects (in m):")
         self.grid.addWidget(self.label_radius, 2, 1, 1, 1)
 
-        self.label_mass1 = QLabel("Mass of first object:")
+        self.label_mass1 = QLabel("Mass of first object (in kg):")
         self.grid.addWidget(self.label_mass1, 3, 1, 1, 1)
 
-        self.label_mass2 = QLabel("Mass of second object:")
+        self.label_mass2 = QLabel("Mass of second object (in kg):")
         self.grid.addWidget(self.label_mass2, 4, 1, 1, 1)
 
         self.radius = QLineEdit()
@@ -88,7 +88,7 @@ class Window(QWidget):
 
             c = (6.67e-11 * (m1 * m2)) / r ** 2
 
-            self.answer.setText(str(c))
+            self.answer.setText(str(("{:.2e}".format(c)))  +  " 0Newtons")
         except:
             self.answer.setText("error")
 
