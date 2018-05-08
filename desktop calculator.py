@@ -27,7 +27,7 @@ class Window(QWidget):
         # Layout
         self.grid = QGridLayout()
         self.setLayout(self.grid)
-        self.setGeometry(10,10,300,500)
+        self.setGeometry(10,10,300,200)
 
 
         # Widgets
