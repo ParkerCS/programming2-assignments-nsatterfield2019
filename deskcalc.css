@@ -1,0 +1,18 @@
+
+QWidget {
+    background-color: "blue"
+
+}
+
+
+
+
+QLabel {
+    background-color:"light blue";
+
+}
+
+QPushButton#button_div {
+    color:"orange";
+}
+

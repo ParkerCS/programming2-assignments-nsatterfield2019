@@ -92,8 +92,6 @@ class Window(QWidget):
         self.grid.addWidget(self.button_equal, 6, 4, 1, 1)
 
 
-
-
         # Signals and Slots
         self.button1.clicked.connect(lambda: self.concat("1"))
         self.button2.clicked.connect(lambda: self.concat("2"))
@@ -113,8 +111,12 @@ class Window(QWidget):
         self.buttonsqr.clicked.connect(lambda: self.concat("** 2"))
         self.buttonsqroot.clicked.connect(lambda: self.concat("** (1/2)"))
         self.button_equal.clicked.connect(self.equal)
+        self.buttonc.clicked.connect(self.clear)
 
-        # Style
+        # Set Style
+        self.set_style()
+
+
 
         # Draw
 
@@ -123,6 +125,11 @@ class Window(QWidget):
         self.equation += val
         self.display.setText(self.equation)
 
+    def set_style(self):
+        style_sheet = "deskcalc.css"
+        with open(style_sheet) as f:
+            self.setStyleSheet(f.read())
+
     def equal(self):
         try:
             self.equation = str(eval(self.equation))
@@ -130,6 +137,10 @@ class Window(QWidget):
 
         except:
             self.display.setText("error")
+
+    def clear(self):
+        self.equation = ""
+        self.display.setText("0")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
