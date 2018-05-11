@@ -32,7 +32,7 @@ class Window(QWidget):
 
         # Widgets
         self.display = QLabel("0")
-        self.grid.addWidget(self.display, 1, 1, 1, 3)
+        self.grid.addWidget(self.display, 1, 1, 1, 4)
         self.display.setObjectName("display")
 
         self.button0 = QPushButton("0")
