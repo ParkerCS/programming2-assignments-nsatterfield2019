@@ -1,18 +1,97 @@
 
 QWidget {
-    background-color: "blue"
+    background-color: "grey"
 
 }
 
 
 
 
-QLabel {
+QLabel#display {
     background-color:"light blue";
 
 }
 
+
+
 QPushButton#button_div {
-    color:"orange";
+    background-color:"orange";
+    color:"white";
 }
 
+QPushButton#button_mult {
+    background-color:"orange";
+    color:"white";
+}
+
+QPushButton#button_add {
+    background-color:"orange";
+    color:"white";
+}
+
+QPushButton#button_sub {
+    background-color:"orange";
+    color:"white";
+}
+
+QPushButton#button_equal {
+    background-color:"orange";
+    color:"white";
+}
+
+QPushButton#button0 {
+    background-color:"white";
+}
+
+QPushButton#button1 {
+    background-color:"white";
+}
+
+QPushButton#button2 {
+    background-color:"white";
+}
+
+
+QPushButton#button3 {
+    background-color:"white";
+}
+
+QPushButton#button4 {
+    background-color:"white";
+}
+
+QPushButton#button5 {
+    background-color:"white";
+}
+
+QPushButton#button6 {
+    background-color:"white";
+}
+
+QPushButton#button7 {
+    background-color:"white";
+}
+
+QPushButton#button8 {
+    background-color:"white";
+}
+
+QPushButton#button9 {
+    background-color:"white";
+}
+
+QPushButton#buttonsqr {
+    background-color:"white";
+}
+
+QPushButton#buttonsqroot {
+    background-color:"white";
+}
+
+QPushButton#buttonc {
+    background-color:"white";
+}
+
+QPushButton#buttondec {
+    background-color:"white";
+}

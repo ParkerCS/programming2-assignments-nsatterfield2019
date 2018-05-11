@@ -33,63 +33,83 @@ class Window(QWidget):
         # Widgets
         self.display = QLabel("0")
         self.grid.addWidget(self.display, 1, 1, 1, 3)
+        self.display.setObjectName("display")
 
         self.button0 = QPushButton("0")
         self.grid.addWidget(self.button0, 6, 1, 1, 2)
+        self.button0.setObjectName("button0")
 
         self.buttondec = QPushButton(".")
         self.grid.addWidget(self.buttondec, 6, 3, 1, 1)
+        self.buttondec.setObjectName("buttondec")
 
         self.button1 = QPushButton("1")
         self.grid.addWidget(self.button1, 5, 1, 1, 1)
+        self.button1.setObjectName("button1")
 
         self.button2 = QPushButton("2")
         self.grid.addWidget(self.button2, 5, 2, 1, 1)
+        self.button2.setObjectName("button2")
 
         self.button3 = QPushButton("3")
         self.grid.addWidget(self.button3, 5, 3, 1, 1)
+        self.button3.setObjectName("button3")
 
         self.button4 = QPushButton("4")
         self.grid.addWidget(self.button4, 4, 1, 1, 1)
+        self.button4.setObjectName("button4")
 
         self.button5 = QPushButton("5")
         self.grid.addWidget(self.button5, 4, 2, 1, 1)
+        self.button5.setObjectName("button5")
 
         self.button6 = QPushButton("6")
         self.grid.addWidget(self.button6, 4, 3, 1, 1)
+        self.button6.setObjectName("button6")
 
         self.button7 = QPushButton("7")
         self.grid.addWidget(self.button7, 3, 1, 1, 1)
+        self.button7.setObjectName("button7")
 
         self.button8 = QPushButton("8")
         self.grid.addWidget(self.button8, 3, 2, 1, 1)
+        self.button8.setObjectName("button8")
 
         self.button9 = QPushButton("9")
         self.grid.addWidget(self.button9, 3, 3, 1, 1)
+        self.button9.setObjectName("button9")
 
         self.button_mult = QPushButton("x")
         self.grid.addWidget(self.button_mult, 3, 4, 1, 1)
+        self.button_mult.setObjectName("button_mult")
 
         self.buttonc = QPushButton("C")
         self.grid.addWidget(self.buttonc, 2, 1, 1, 1)
+        self.buttonc.setObjectName("buttonc")
 
         self.buttonsqr = QPushButton("x^2")
         self.grid.addWidget(self.buttonsqr, 2, 2, 1, 1)
+        self.buttonsqr.setObjectName("buttonsqr")
 
         self.buttonsqroot = QPushButton("x^(1/2)")
         self.grid.addWidget(self.buttonsqroot, 2, 3, 1, 1)
+        self.buttonsqroot.setObjectName("buttonsqroot")
 
         self.button_div = QPushButton("/")
         self.grid.addWidget(self.button_div, 2, 4, 1, 1)
+        self.button_div.setObjectName("button_div")
 
         self.button_sub = QPushButton("-")
         self.grid.addWidget(self.button_sub, 4, 4, 1, 1)
+        self.button_sub.setObjectName("button_sub")
 
         self.button_add = QPushButton("+")
         self.grid.addWidget(self.button_add, 5, 4, 1, 1)
+        self.button_add.setObjectName("button_add")
 
         self.button_equal = QPushButton("=")
         self.grid.addWidget(self.button_equal, 6, 4, 1, 1)
+        self.button_equal.setObjectName("button_equal")
 
 
         # Signals and Slots
